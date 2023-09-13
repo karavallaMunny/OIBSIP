@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <style>
+        body {
+            background-image: url("https://image.slidesdocs.com/responsive-images/slides/0-heat-stroke-science-knowledge-is-very-important-to-prevent-powerpoint-background_473b19904b__960_540.jpg");
+            background-repeat: no-repeat;
+            background-size:cover;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .converter {
+            background-color: rgb(215, 215, 91);
+            padding:70px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(196, 89, 89, 0.2);
+            text-align: center;
+            margin-right:400px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom:60px;
+        }
+
+        .input-container {
+            margin-bottom: 50px;
+            color: rgb(36, 31, 129);
+            font-size: 20px;
+        }
+
+        input {
+            width: 103px;
+            height: 26px;
+            padding: 6px;
+            border: 1px solid #b2703b;
+            border-radius: 5px;
+            font-size: 16px;
+            
+        }
+
+        select {
+            padding: 5px;
+            border: 1px solid #ae7d3b;
+            border-radius: 5px;
+            width: 111px;
+            height:40px;
+            font-size: 15px;
+            
+        }
+
+        button {
+            background-color: #278670;
+            color:#fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #30b580;
+        }
+
+        .output-container {
+            margin-top: 20px;
+            font-weight: bold;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="converter">
+        <h1>Temperature Converter</h1>
+        <div class="input-container">
+            <input type="number" id="input" placeholder="Enter temperature">
+            <select id="from-unit">
+                <option value="celsius">Celsius (°C)</option>
+                <option value="fahrenheit">Fahrenheit (°F)</option>
+                <option value="kelvin">Kelvin (K)</option>
+            </select>
+            <span>to</span>
+            <select id="to-unit">
+                <option value="celsius">Celsius (°C)</option>
+                <option value="fahrenheit">Fahrenheit (°F)</option>
+                <option value="kelvin">Kelvin (K)</option>
+            </select>
+        </div>
+        <div class="output-container">
+            <p id="result"></p>
+        </div>
+        <button id="convert-btn">Convert</button>
+        <button id="clear-btn">Clear</button>
+    </div>
+    <script>
+        // Conversion functions
+        function convertTemperature(value, fromUnit, toUnit) {
+            if (fromUnit === toUnit) {
+                return value;
+            }
+            switch (fromUnit) {
+                case 'celsius':
+                    return toUnit === 'fahrenheit' ? (value * 9/5) + 32 : value + 273.15;
+                case 'fahrenheit':
+                    return toUnit === 'celsius' ? (value - 32) * 5/9 : ((value - 32) * 5/9) + 273.15;
+                case 'kelvin':
+                    return toUnit === 'celsius' ? value - 273.15 : ((value - 273.15) * 9/5) + 32;
+                default:
+                    return NaN;
+            }
+        }
+
+        // Handle the conversion when the "Convert" button is clicked
+        document.getElementById("convert-btn").addEventListener("click", function() {
+            const inputValue = parseFloat(document.getElementById("input").value);
+            const fromUnit = document.getElementById("from-unit").value;
+            const toUnit = document.getElementById("to-unit").value;
+            
+            if (!isNaN(inputValue)) {
+                const result = convertTemperature(inputValue, fromUnit, toUnit);
+                if (!isNaN(result)) {
+                    document.getElementById("result").textContent = `Result: ${inputValue} ${fromUnit.toUpperCase()} = ${result.toFixed(2)} ${toUnit.toUpperCase()}`;
+                } else {
+                    document.getElementById("result").textContent = "Invalid conversion";
+                }
+            } else {
+                document.getElementById("result").textContent = "Invalid input";
+            }
+        });
+
+        // Clear the form when the "Clear" button is clicked
+        document.getElementById("clear-btn").addEventListener("click", function() {
+            document.getElementById("input").value = "";
+            document.getElementById("result").textContent = "";
+        });
+    </script>
+</body>
+</html>
+
+
